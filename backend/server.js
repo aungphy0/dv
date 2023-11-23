@@ -29,7 +29,7 @@ app.get('/api/csv-data', (req, res) => {
 });
 
 
-//raw data of total countries
+//for the pie chart
 app.get('/api/csv-data/countries/:category', (req, res) => {
 
     const countryCounts = new Map();
@@ -57,7 +57,57 @@ app.get('/api/csv-data/countries/:category', (req, res) => {
 
 });
 
+// for the map 
+app.get('/api/csv-data/map/:category', (req, res) => {
+
+  const countryCounts = new Map();
+  const category = req.params.category
+
+  fs.createReadStream(csvFilePath)
+    .pipe(csv())
+    .on('data', (row) => {
+
+      if(row.category === category){
+          if(countryCounts.has(row.Country)){
+              countryCounts.set(row.Country, countryCounts.get(row.Country) + 1)
+          }
+          else{
+              countryCounts.set(row.Country, 1)
+          }
+      }
+
+    })
+    .on('end', () => {
+      for( let [k, v] of countryCounts.entries()){
+        if ( k === "United States")
+          countryCounts.set("United States of America", countryCounts.get(k))
+      }
+      countryCounts.delete("United States")
+      const data = Array.from([...countryCounts.entries()].sort(
+                              (a, b) => b[1] - a[1]).slice(0,5));
+      res.json(data);
+    });
+
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+/*
+Top 8 Category
+Entertainment : 241
+Music : 202
+People & Blogs : 132
+Gaming : 94
+Comedy : 69
+Film & Animation : 46
+Education : 45
+Howto & Style : 40
+News & Politics : 26
+Science & Technology : 17
+Shows : 13
+Sports : 11
+Pets & Animals : 4
+
+*/

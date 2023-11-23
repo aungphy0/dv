@@ -5,42 +5,15 @@ import './App.css'
 import Data from './Data'
 import axios from 'axios';
 import PieChart from './PieChart'
-
+import Map from './Map'
 
 
 function App() {
-  /*
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-  */
-
+  
   const [ selectedDataset, setSelectedDataset ] = useState();
   const [ chartData, setChartData ] = useState([]);
-
+  const [ selectedCategory, setSelectedCategory ] = useState();
+  const [mapData, setMapData ] = useState([]);
   /*
   useEffect(() => {
     fetch('http://localhost:3000/api/csv-data/countries')
@@ -51,27 +24,60 @@ function App() {
       console.log(chartData)
   }, []);
   */
+  
+  //////////////// Pie Chart ////////////////
+  useEffect(() => {
+    const fetchData = async () => {
+       try {
+         const response = await axios.get(`http://localhost:3000/api/csv-data/countries/${selectedDataset}`);
+         setChartData(response.data || []);
+       } catch (error) {
+         console.error('Error fetching data:', error);
+       }
+    };
+
+    fetchData();
+ }, [selectedDataset]);
+
+ const handleRadioChange = (e) => {
+   setSelectedDataset(e.target.value)
+ }
+
+ const dataArray = Array.from(chartData).map(([property, value]) => ({ property, value }));
+
+  //////////////// Pie Chart ////////////////
+
+
+
+  ///////////////  Map chart ///////////////
+  /*
+  const countries = [];
 
   useEffect(() => {
      const fetchData = async () => {
         try {
-          const response = await axios.get(`http://localhost:3000/api/csv-data/countries/${selectedDataset}`);
-          setChartData(response.data || []);
+          const response = await axios.get(`http://localhost:3000/api/csv-data/map/${selectedCategory}`);
+          setMapData(response.data || []);
         } catch (error) {
           console.error('Error fetching data:', error);
         }
      };
 
      fetchData();
-  }, [selectedDataset]);
+  }, [selectedCategory]);
 
-  const handleRadioChange = (e) => {
-    setSelectedDataset(e.target.value)
+  for(let i=0; i<mapData.length; i++) {
+    // console.log(mapData[i][0])
+    countries.push(mapData[i][0])
   }
 
-  const dataArray = Array.from(chartData).map(([property, value]) => ({ property, value }));
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+  */
+  ///////////////////// Map Chart ////////////////////////
 
-  
+
   return (
     <div className="App">
       {/* <Data /> */}
@@ -94,10 +100,85 @@ function App() {
           />
           Music
         </label>
+        <label>
+          <input
+            type="radio"
+            value="People & Blogs"
+            checked={selectedDataset === 'People & Blogs'}
+            onChange={handleRadioChange}
+          />
+          People and Blogs
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Gaming"
+            checked={selectedDataset === 'Gaming'}
+            onChange={handleRadioChange}
+          />
+          Gaming
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Comedy"
+            checked={selectedDataset === 'Comedy'}
+            onChange={handleRadioChange}
+          />
+          Comedy
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Film & Animation"
+            checked={selectedDataset === 'Film & Animation'}
+            onChange={handleRadioChange}
+          />
+          Film and Animation
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Education"
+            checked={selectedDataset === 'Education'}
+            onChange={handleRadioChange}
+          />
+          Education
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Howto & Style"
+            checked={selectedDataset === 'Howto & Style'}
+            onChange={handleRadioChange}
+          />
+          How to and Style
+        </label>
       </div>
       <PieChart data={dataArray} />
+
+      {/* <Map data={countries}/>
+      <div>
+        <select onChange={handleCategoryChange} value={selectedCategory}>
+          <option value="">Select Category</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Music">Music</option>
+          <option value="People & Blogs">People and Blogs</option>
+          <option value="Gaming">Gaming</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Film & Animation">Film and Animation</option>
+          <option value="Education">Education</option>
+          <option value="Howto & Style">Howto and Style</option>
+          <option value="News & Politics">News and Politics</option>
+          <option value="Science & Technology">Science and Technology</option>
+          <option value="Shows">Shows</option>
+          <option value="Sports">Sports</option>
+          <option value="Pets & Animals">Pets and Animals</option>
+        </select>
+      </div> */}
     </div>
   )
 }
 
 export default App
+
