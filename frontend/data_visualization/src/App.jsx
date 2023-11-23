@@ -26,6 +26,7 @@ function App() {
   */
   
   //////////////// Pie Chart ////////////////
+  /*
   useEffect(() => {
     const fetchData = async () => {
        try {
@@ -44,13 +45,13 @@ function App() {
  }
 
  const dataArray = Array.from(chartData).map(([property, value]) => ({ property, value }));
-
+ */
   //////////////// Pie Chart ////////////////
 
 
 
   ///////////////  Map chart ///////////////
-  /*
+  
   const countries = [];
 
   useEffect(() => {
@@ -67,21 +68,21 @@ function App() {
   }, [selectedCategory]);
 
   for(let i=0; i<mapData.length; i++) {
-    // console.log(mapData[i][0])
     countries.push(mapData[i][0])
+    console.log(mapData[i][0] + " : " + mapData[i][1])
   }
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
   };
-  */
+  
   ///////////////////// Map Chart ////////////////////////
 
 
   return (
     <div className="App">
       {/* <Data /> */}
-      <div>
+      {/* <div>
         <label>
           <input
             type="radio"
@@ -155,9 +156,9 @@ function App() {
           How to and Style
         </label>
       </div>
-      <PieChart data={dataArray} />
+      <PieChart data={dataArray} /> */}
 
-      {/* <Map data={countries}/>
+      <Map data={countries}/>
       <div>
         <select onChange={handleCategoryChange} value={selectedCategory}>
           <option value="">Select Category</option>
@@ -175,7 +176,7 @@ function App() {
           <option value="Sports">Sports</option>
           <option value="Pets & Animals">Pets and Animals</option>
         </select>
-      </div> */}
+      </div>
     </div>
   )
 }
