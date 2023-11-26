@@ -51,7 +51,7 @@ function App() {
 
 
   ///////////////  Map chart ///////////////
-  
+  /*
   const countries = [];
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function App() {
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
   };
-  
+  */
   ///////////////////// Map Chart ////////////////////////
 
 
@@ -158,8 +158,8 @@ function App() {
       </div>
       <PieChart data={dataArray} /> */}
 
-      <Map data={countries}/>
-      <div>
+      <Map />
+      {/* <div>
         <select onChange={handleCategoryChange} value={selectedCategory}>
           <option value="">Select Category</option>
           <option value="Entertainment">Entertainment</option>
@@ -176,7 +176,7 @@ function App() {
           <option value="Sports">Sports</option>
           <option value="Pets & Animals">Pets and Animals</option>
         </select>
-      </div>
+      </div> */}
     </div>
   )
 }
