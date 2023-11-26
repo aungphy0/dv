@@ -34,6 +34,8 @@ app.get('/api/csv-data/countries/:category', (req, res) => {
 
     const countryCounts = new Map();
     const category = req.params.category
+    var otherTotal = 0; 
+    const theData = [];
 
     fs.createReadStream(csvFilePath)
       .pipe(csv())
@@ -51,8 +53,17 @@ app.get('/api/csv-data/countries/:category', (req, res) => {
       })
       .on('end', () => {
         const data = Array.from([...countryCounts.entries()].sort(
-                                (a, b) => b[1] - a[1]).slice(2,8));
-        res.json(data);
+                                (a, b) => b[1] - a[1]));
+        for(let i=6; i< data.length; i++){
+          otherTotal += data[i][1]
+        }
+        for(let i=0; i<6; i++){
+          theData.push(data[i]);
+        }
+        theData.push(['Other', otherTotal])
+
+        console.log(theData);
+        res.json(theData);
       });
 
 });

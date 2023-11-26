@@ -8,9 +8,10 @@ import PieChart from './PieChart'
 import Map from './Map'
 
 
+
 function App() {
   
-  const [ selectedDataset, setSelectedDataset ] = useState();
+  const [ selectedDataset, setSelectedDataset ] = useState("Entertainment");
   const [ chartData, setChartData ] = useState([]);
   const [ selectedCategory, setSelectedCategory ] = useState();
   const [mapData, setMapData ] = useState([]);
@@ -155,9 +156,8 @@ function App() {
           />
           How to and Style
         </label>
-      </div>
-      <PieChart data={dataArray} /> */}
-
+      </div> */}
+      {/* <PieChart /> */}
       <Map />
       {/* <div>
         <select onChange={handleCategoryChange} value={selectedCategory}>
