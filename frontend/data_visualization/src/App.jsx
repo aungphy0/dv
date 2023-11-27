@@ -157,8 +157,8 @@ function App() {
           How to and Style
         </label>
       </div> */}
-      {/* <PieChart /> */}
-      <Map />
+      <PieChart />
+      {/* <Map /> */}
       {/* <div>
         <select onChange={handleCategoryChange} value={selectedCategory}>
           <option value="">Select Category</option>
